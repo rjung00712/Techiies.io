@@ -61,7 +61,7 @@ public class PuzzleBoardView extends View {
         if (animation == null && puzzleBoard != null) {
             // Do something. Then:
             for (int i = 0; i < NUM_SHUFFLE_STEPS; i++) {
-                ArrayList<PuzzleBoard> boards = puzzleBoard.neighbours();
+                ArrayList<PuzzleBoard> boards = puzzleBoard.neighbors();
                 puzzleBoard = boards.get(random.nextInt(boards.size()));
             }
 
@@ -78,7 +78,7 @@ public class PuzzleBoardView extends View {
                     if (puzzleBoard.click(event.getX(), event.getY())) {
                         invalidate();
                         if (puzzleBoard.resolved()) {
-                            Toast toast = Toast.makeText(activity, "Congratulations!", Toast.LENGTH_LONG);
+                            Toast toast = Toast.makeText(activity, "Congratulations You solved it!", Toast.LENGTH_LONG);
                             toast.show();
                         }
                         return true;
@@ -108,7 +108,7 @@ public class PuzzleBoardView extends View {
 //                animation = pathToVic;
 //            }
 //
-//            ArrayList<PuzzleBoard> solutions = currBoard.neighbours();
+//            ArrayList<PuzzleBoard> solutions = currBoard.neighbors();
 //            for (PuzzleBoard board:solutions) {
 //                solutionQueue.add(board);
 //            }

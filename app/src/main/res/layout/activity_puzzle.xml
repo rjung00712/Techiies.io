@@ -24,9 +24,8 @@
         android:text="@string/shuffle_button_label"
         android:id="@+id/shuffle_button"
         android:onClick="shuffleImage"
-        android:layout_alignTop="@+id/photo_button"
-        android:layout_toRightOf="@+id/photo_button"
-        android:layout_toEndOf="@+id/photo_button" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -35,8 +34,16 @@
         android:id="@+id/solve_button"
         android:onClick="solve"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/shuffle_button"
-        android:layout_toEndOf="@+id/shuffle_button" />
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/Leaderboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Leaderboard"
+        android:layout_above="@+id/shuffle_button"
+        android:layout_centerHorizontal="true" />
 
     <!--<ImageView-->
     <!--android:layout_width="match_parent"-->

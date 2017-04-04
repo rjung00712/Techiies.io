@@ -26,12 +26,46 @@ public class PuzzleActivity extends AppCompatActivity {
         // This code programmatically adds the PuzzleBoardView to the UI.
         RelativeLayout container = (RelativeLayout) findViewById(R.id.puzzle_container);
 
+
+
 //        imageView = (ImageView) findViewById(R.id.imageView);
 
         boardView = new PuzzleBoardView(this);
+        
         // Some setup of the view.
         boardView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         container.addView(boardView);
+
+
+//        final SharedPreferences prefs = PreferenceManager
+//                .getDefaultSharedPreferences(this);
+//        String userName = prefs.getString("user_name", null);
+//        if (userName == null) {
+//            EditText input = new EditText(this);
+//            input.setId(1000);
+//            AlertDialog dialog = new AlertDialog.Builder(this)
+//                    .setView(input).setTitle("Enter your username!")
+//                    .setPositiveButton("Ok",
+//                            new DialogInterface.OnClickListener() {
+//
+//                                @Override
+//                                public void onClick(DialogInterface dialog,
+//                                                    int which) {
+//                                    EditText theInput = (EditText) ((AlertDialog) dialog)
+//                                            .findViewById(1000);
+//                                    String enteredText = theInput.getText()
+//                                            .toString();
+//                                    if (!enteredText.equals("")) {
+//                                        SharedPreferences.Editor editor = prefs
+//                                                .edit();
+//                                        editor.putString("user_name",
+//                                                enteredText);
+//                                        editor.commit();
+//                                    }
+//                                }
+//                            }).create();
+//            dialog.show();
+
 
     }
 
@@ -82,6 +116,5 @@ public class PuzzleActivity extends AppCompatActivity {
 
     public void solve(View view) {
         boardView.solve();
-
     }
 }

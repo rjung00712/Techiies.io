@@ -2,7 +2,6 @@ package io.techies.com.puzzle_8;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-
 import java.util.ArrayList;
 
 /**
@@ -10,7 +9,6 @@ import java.util.ArrayList;
  */
 
 public class PuzzleBoard {
-
     private static final int NUM_TILES = 3;
     private static final int[][] NEIGHBOUR_COORDS = {
             { -1, 0 },
@@ -119,7 +117,7 @@ public class PuzzleBoard {
         tiles.set(j, temp);
     }
 
-    public ArrayList<PuzzleBoard> neighbours() {
+    public ArrayList<PuzzleBoard> neighbors() {
         ArrayList<PuzzleBoard> boards = new ArrayList<>();
         PuzzleBoard t;
         PuzzleTile nullTile = null;

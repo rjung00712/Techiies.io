@@ -28,6 +28,7 @@ public class PuzzleTile {
     public boolean isClicked(float clickX, float clickY, int tileX, int tileY) {
         int tileX0 = tileX * bitmap.getWidth();
         int tileX1 = (tileX + 1) * bitmap.getWidth();
+
         int tileY0 = tileY * bitmap.getWidth();
         int tileY1 = (tileY + 1) * bitmap.getWidth();
         return (clickX >= tileX0) && (clickX < tileX1) && (clickY >= tileY0) && (clickY < tileY1);
