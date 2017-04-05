@@ -12,6 +12,11 @@ public class Player {
         this.userName = userName;
     }
 
+    public Player(String userName, int moves) {
+        this.userName = userName;
+        this.moves = moves;
+    }
+
     public String getUserName() {
         return userName;
     }

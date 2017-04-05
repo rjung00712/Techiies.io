@@ -23,16 +23,21 @@ public class PuzzleBoardView extends View {
     private ArrayList<PuzzleBoard> animation;
     private Random random = new Random();
 
+    private String userName;
+
     public PuzzleBoardView(Context context) {
         super(context);
         activity = (Activity) context;
         animation = null;
     }
 
-    public void initialize(Bitmap imageBitmap) {
+    public void initialize(Bitmap imageBitmap, String userName) {
         Log.i("this is width", String.valueOf(getWidth()));
 
         int width = getWidth();
+
+        this.userName = userName;
+
         puzzleBoard = new PuzzleBoard(imageBitmap, width);
         invalidate();
     }
@@ -81,6 +86,7 @@ public class PuzzleBoardView extends View {
                             Toast toast = Toast.makeText(activity, "Congratulations You solved it!", Toast.LENGTH_LONG);
                             toast.show();
                         }
+                        puzzleBoard.addUser(userName);
                         return true;
                     }
             }

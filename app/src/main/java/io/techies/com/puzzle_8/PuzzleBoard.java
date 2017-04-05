@@ -26,9 +26,9 @@ public class PuzzleBoard {
         @Override
         public int compare(Player player1, Player player2) {
             if(player1.getMoves() < player2.getMoves()) {
-                return 1;
-            } else if(player1.getMoves() > player2.getMoves()) {
                 return -1;
+            } else if(player1.getMoves() > player2.getMoves()) {
+                return 1;
             }
             return 0;
         }
@@ -189,9 +189,8 @@ public class PuzzleBoard {
         }
 
         if(!hasPlayer) {
-            player = new Player(userName);
+            player = new Player(userName, 5);
             players.add(player);
-            System.out.println();
         }
     }
 }

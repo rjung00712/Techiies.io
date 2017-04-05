@@ -22,6 +22,7 @@ public class PuzzleActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Bitmap imageBitmap = null;
     private PuzzleBoardView boardView;
+    private String userName;
 
 //    ImageView imageView;
 
@@ -80,7 +81,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
             imageBitmap = (Bitmap) extras.get("data");
 
-            boardView.initialize(imageBitmap);
+            boardView.initialize(imageBitmap, userName);
 //            imageView.setImageBitmap(imageBitmap);
         }
     }
@@ -109,7 +110,7 @@ public class PuzzleActivity extends AppCompatActivity {
                 @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onClick(DialogInterface dialog, int id) {
-                    String userName = editText.getText().toString();
+                    userName = editText.getText().toString();
 
                     if(userName.equals("")) {
                         Toast.makeText(PuzzleActivity.this, "must enter a username", Toast.LENGTH_SHORT).show();
