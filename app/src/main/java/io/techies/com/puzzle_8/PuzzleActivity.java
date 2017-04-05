@@ -17,12 +17,15 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-public class PuzzleActivity extends AppCompatActivity {
+import java.io.Serializable;
+
+public class PuzzleActivity extends AppCompatActivity implements Serializable {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Bitmap imageBitmap = null;
     private PuzzleBoardView boardView;
     private String userName;
+
 
 //    ImageView imageView;
 
@@ -72,6 +75,12 @@ public class PuzzleActivity extends AppCompatActivity {
         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
     }
 
+    // calls puzzle board activity to handle the leader board display intent
+    public void displayLeaderBoardIntent(View view) {
+        Intent leaderBoardIntent = new Intent(this, LeaderBoard.class);
+        startActivity(leaderBoardIntent);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -115,9 +124,13 @@ public class PuzzleActivity extends AppCompatActivity {
                     if(userName.equals("")) {
                         Toast.makeText(PuzzleActivity.this, "must enter a username", Toast.LENGTH_SHORT).show();
                         createAlert();
+                    } else {
+                        boardView.addUser(userName);
                     }
+
                 }
             });
+        builder.setCancelable(false);
         builder.show();
     }
 }

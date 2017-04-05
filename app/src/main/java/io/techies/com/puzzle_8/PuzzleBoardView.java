@@ -9,14 +9,18 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Random;
 
 /**
  * Created by Richard on 4/3/17.
  */
 
-public class PuzzleBoardView extends View {
+public class PuzzleBoardView extends View implements Serializable {
     public static final int NUM_SHUFFLE_STEPS = 40;
     private Activity activity;
     private PuzzleBoard puzzleBoard;
@@ -24,6 +28,19 @@ public class PuzzleBoardView extends View {
     private Random random = new Random();
 
     private String userName;
+
+    // list of all players
+    public static Queue<Player> listOfPlayers = new PriorityQueue<>(10, new Comparator<Player>() {
+        @Override
+        public int compare(Player player1, Player player2) {
+            if(player1.getMoves() < player2.getMoves()) {
+                return -1;
+            } else if(player1.getMoves() > player2.getMoves()) {
+                return 1;
+            }
+            return 0;
+        }
+    });
 
     public PuzzleBoardView(Context context) {
         super(context);
@@ -86,7 +103,7 @@ public class PuzzleBoardView extends View {
                             Toast toast = Toast.makeText(activity, "Congratulations You solved it!", Toast.LENGTH_LONG);
                             toast.show();
                         }
-                        puzzleBoard.addUser(userName);
+                        addUser(userName);
                         return true;
                     }
             }
@@ -119,6 +136,26 @@ public class PuzzleBoardView extends View {
 //                solutionQueue.add(board);
 //            }
 //        }
+    }
+
+    // adds username to list of users
+    public void addUser(String userName) {
+        Player player;
+        boolean hasPlayer = false;
+
+        for(Player p : listOfPlayers) {
+            if(p.getUserName().equals(userName)) {
+                player = p;
+                hasPlayer = true;
+            }
+        }
+
+        if(!hasPlayer) {
+            player = new Player(userName, 5);
+            listOfPlayers.add(player);
+        }
+
+        listOfPlayers.add(new Player("tim", 10));
     }
 }
 
