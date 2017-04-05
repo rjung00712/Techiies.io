@@ -31,6 +31,7 @@ public class PuzzleBoardView extends View {
 
     public void initialize(Bitmap imageBitmap) {
         Log.i("this is width", String.valueOf(getWidth()));
+
         int width = getWidth();
         puzzleBoard = new PuzzleBoard(imageBitmap, width);
         invalidate();
@@ -64,7 +65,6 @@ public class PuzzleBoardView extends View {
                 ArrayList<PuzzleBoard> boards = puzzleBoard.neighbors();
                 puzzleBoard = boards.get(random.nextInt(boards.size()));
             }
-
             puzzleBoard.reset();
             invalidate();
         }
@@ -73,7 +73,7 @@ public class PuzzleBoardView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (animation == null && puzzleBoard != null) {
-            switch(event.getAction()) {
+            switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     if (puzzleBoard.click(event.getX(), event.getY())) {
                         invalidate();
@@ -115,3 +115,5 @@ public class PuzzleBoardView extends View {
 //        }
     }
 }
+
+

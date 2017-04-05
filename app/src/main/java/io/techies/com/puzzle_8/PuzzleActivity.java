@@ -1,14 +1,21 @@
 package io.techies.com.puzzle_8;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class PuzzleActivity extends AppCompatActivity {
 
@@ -26,47 +33,15 @@ public class PuzzleActivity extends AppCompatActivity {
         // This code programmatically adds the PuzzleBoardView to the UI.
         RelativeLayout container = (RelativeLayout) findViewById(R.id.puzzle_container);
 
-
-
 //        imageView = (ImageView) findViewById(R.id.imageView);
 
         boardView = new PuzzleBoardView(this);
-        
+
         // Some setup of the view.
         boardView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         container.addView(boardView);
 
-
-//        final SharedPreferences prefs = PreferenceManager
-//                .getDefaultSharedPreferences(this);
-//        String userName = prefs.getString("user_name", null);
-//        if (userName == null) {
-//            EditText input = new EditText(this);
-//            input.setId(1000);
-//            AlertDialog dialog = new AlertDialog.Builder(this)
-//                    .setView(input).setTitle("Enter your username!")
-//                    .setPositiveButton("Ok",
-//                            new DialogInterface.OnClickListener() {
-//
-//                                @Override
-//                                public void onClick(DialogInterface dialog,
-//                                                    int which) {
-//                                    EditText theInput = (EditText) ((AlertDialog) dialog)
-//                                            .findViewById(1000);
-//                                    String enteredText = theInput.getText()
-//                                            .toString();
-//                                    if (!enteredText.equals("")) {
-//                                        SharedPreferences.Editor editor = prefs
-//                                                .edit();
-//                                        editor.putString("user_name",
-//                                                enteredText);
-//                                        editor.commit();
-//                                    }
-//                                }
-//                            }).create();
-//            dialog.show();
-
-
+        createAlert();
     }
 
     @Override
@@ -116,5 +91,32 @@ public class PuzzleActivity extends AppCompatActivity {
 
     public void solve(View view) {
         boardView.solve();
+    }
+
+    // creates custom alert dialog box for username input
+    public void createAlert() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        View mView = inflater.inflate(R.layout.user_name, null);
+        final EditText editText = (EditText) mView.findViewById(R.id.username);
+
+        // inflate and set the layout for the dialog
+        // pass null as a parent view because its going in the dialog layout
+        builder.setView(mView)
+            .setPositiveButton("enter", new DialogInterface.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    String userName = editText.getText().toString();
+
+                    if(userName.equals("")) {
+                        Toast.makeText(PuzzleActivity.this, "must enter a username", Toast.LENGTH_SHORT).show();
+                        createAlert();
+                    }
+                }
+            });
+        builder.show();
     }
 }

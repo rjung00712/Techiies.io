@@ -2,7 +2,11 @@ package io.techies.com.puzzle_8;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 /**
  * Created by Richard on 4/3/17.
@@ -16,6 +20,20 @@ public class PuzzleBoard {
             { 0, -1 },
             { 0, 1 }
     };
+
+    // list of all players
+    private static Queue<Player> players = new PriorityQueue<>(10, new Comparator<Player>() {
+        @Override
+        public int compare(Player player1, Player player2) {
+            if(player1.getMoves() < player2.getMoves()) {
+                return 1;
+            } else if(player1.getMoves() > player2.getMoves()) {
+                return -1;
+            }
+            return 0;
+        }
+    });
+
     private ArrayList<PuzzleTile> tiles;
 
     private int steps;
@@ -156,5 +174,24 @@ public class PuzzleBoard {
         }
         int manhattanDistance = mPriority + steps;
         return manhattanDistance;
+    }
+
+    //
+    public void addUser(String userName) {
+        Player player;
+        boolean hasPlayer = false;
+
+        for(Player p : players) {
+            if(p.getUserName().equals(userName)) {
+                player = p;
+                hasPlayer = true;
+            }
+        }
+
+        if(!hasPlayer) {
+            player = new Player(userName);
+            players.add(player);
+            System.out.println();
+        }
     }
 }
