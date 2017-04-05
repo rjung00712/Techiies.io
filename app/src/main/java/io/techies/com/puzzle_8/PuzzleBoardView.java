@@ -22,11 +22,13 @@ public class PuzzleBoardView extends View {
     private PuzzleBoard puzzleBoard;
     private ArrayList<PuzzleBoard> animation;
     private Random random = new Random();
+    private int moveCounter;
 
     public PuzzleBoardView(Context context) {
         super(context);
         activity = (Activity) context;
         animation = null;
+        moveCounter = 0;
     }
 
     public void initialize(Bitmap imageBitmap) {
@@ -76,6 +78,7 @@ public class PuzzleBoardView extends View {
             switch(event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     if (puzzleBoard.click(event.getX(), event.getY())) {
+                        moveCounter++;
                         invalidate();
                         if (puzzleBoard.resolved()) {
                             Toast toast = Toast.makeText(activity, "Congratulations You solved it!", Toast.LENGTH_LONG);
@@ -86,6 +89,10 @@ public class PuzzleBoardView extends View {
             }
         }
         return super.onTouchEvent(event);
+    }
+
+    public int getMoveCounter(){
+        return moveCounter;
     }
 
     public void solve() {

@@ -45,6 +45,21 @@
         android:layout_above="@+id/shuffle_button"
         android:layout_centerHorizontal="true" />
 
+    <EditText
+        android:id="@+id/MoveCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_alignBottom="@+id/Leaderboard"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/photo_button"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_alignTop="@+id/Leaderboard" />
+
+
     <!--<ImageView-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="match_parent"-->

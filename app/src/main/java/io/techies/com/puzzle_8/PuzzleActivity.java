@@ -9,12 +9,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class PuzzleActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Bitmap imageBitmap = null;
     private PuzzleBoardView boardView;
+    private TextView moveCounterText;
 
 //    ImageView imageView;
 
@@ -31,11 +35,14 @@ public class PuzzleActivity extends AppCompatActivity {
 //        imageView = (ImageView) findViewById(R.id.imageView);
 
         boardView = new PuzzleBoardView(this);
-        
+        moveCounterText = (TextView) findViewById(R.id.MoveCounter);
+
         // Some setup of the view.
         boardView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         container.addView(boardView);
 
+        // put number of moves into the text box
+        moveCounterText.setText(boardView.getMoveCounter());
 
 //        final SharedPreferences prefs = PreferenceManager
 //                .getDefaultSharedPreferences(this);
@@ -83,7 +90,7 @@ public class PuzzleActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        //noinspection SimplifiableIfStatement2
         if (id == R.id.action_settings) {
             return true;
         }
@@ -117,4 +124,6 @@ public class PuzzleActivity extends AppCompatActivity {
     public void solve(View view) {
         boardView.solve();
     }
+
+    public int getMoveCounter(View view) { return boardView.getMoveCounter();}
 }
