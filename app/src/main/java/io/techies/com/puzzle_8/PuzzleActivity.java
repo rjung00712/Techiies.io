@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.Collections;
 
 public class PuzzleActivity extends AppCompatActivity implements Serializable {
 
@@ -134,7 +135,7 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
 
             boardView.initialize(imageBitmap, userName);
 //            imageView.setImageBitmap(imageBitmap);
-            shuffleImage(boardView);
+            //shuffleImage(boardView);
         }
     }
 
@@ -172,6 +173,7 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
                         createAlert();
                     } else {
                         boardView.listOfPlayers.add(new Player(userName, boardView.getMoveCounter()));
+                        Collections.sort(boardView.listOfPlayers);
                         boardView.setMoveCounter(0);
                     }
 
