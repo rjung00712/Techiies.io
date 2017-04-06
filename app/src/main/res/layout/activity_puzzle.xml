@@ -11,7 +11,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/take_photo_button_label"
+        android:text="New Game"
         android:id="@+id/photo_button"
         android:onClick="dispatchTakePictureIntent"
         android:layout_alignParentBottom="true"
@@ -21,7 +21,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/shuffle_button_label"
+        android:text="Save Game"
         android:id="@+id/shuffle_button"
         android:onClick="shuffleImage"
         android:layout_alignParentBottom="true"
@@ -30,7 +30,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/solve_button_label"
+        android:text="Load Game"
         android:id="@+id/solve_button"
         android:onClick="solve"
         android:layout_alignParentBottom="true"

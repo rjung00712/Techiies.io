@@ -19,7 +19,7 @@ import java.util.Random;
  */
 
 public class PuzzleBoardView extends View {
-    public static final int NUM_SHUFFLE_STEPS = 40;
+    public static final int NUM_SHUFFLE_STEPS = 120;
     private Activity activity;
     private PuzzleBoard puzzleBoard;
     private ArrayList<PuzzleBoard> animation;

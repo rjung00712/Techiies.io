@@ -103,8 +103,6 @@ public class PuzzleActivity extends AppCompatActivity {
     public void dispatchTakePictureIntent(View view) {  // handler for the "Take photo" button
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        boardView.setMoveCounter(0);
-        moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
         // maybe add shuffle here when ever a new picture is taken (optional)
     }
 
@@ -119,6 +117,7 @@ public class PuzzleActivity extends AppCompatActivity {
 
             boardView.initialize(imageBitmap);
 //            imageView.setImageBitmap(imageBitmap);
+            shuffleImage(boardView);
         }
     }
 
