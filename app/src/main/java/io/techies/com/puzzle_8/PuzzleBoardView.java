@@ -122,9 +122,8 @@ public class PuzzleBoardView extends View implements Serializable {
                         if (puzzleBoard.resolved()) {
                             Toast toast = Toast.makeText(activity, "Congratulations You solved it!", Toast.LENGTH_LONG);
                             toast.show();
-                            moveCounter = 0;
+                            puzzleActivity.createAlert();
                         }
-                        addUser(userName);
                         return true;
                     }
             }
@@ -163,26 +162,6 @@ public class PuzzleBoardView extends View implements Serializable {
 //                solutionQueue.add(board);
 //            }
 //        }
-    }
-
-    // adds username to list of users
-    public void addUser(String userName) {
-        Player player;
-        boolean hasPlayer = false;
-
-        for(Player p : listOfPlayers) {
-            if(p.getUserName().equals(userName)) {
-                player = p;
-                hasPlayer = true;
-            }
-        }
-
-        if(!hasPlayer) {
-            player = new Player(userName, 5);
-            listOfPlayers.add(player);
-        }
-
-        listOfPlayers.add(new Player("tim", 10));
     }
 }
 
