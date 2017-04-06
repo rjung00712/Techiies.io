@@ -49,15 +49,29 @@
         android:id="@+id/MoveCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:ems="2"
         android:layout_alignBottom="@+id/Leaderboard"
-        android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/photo_button"
         android:clickable="false"
         android:cursorVisible="false"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:layout_alignTop="@+id/Leaderboard" />
+        android:layout_alignTop="@+id/Leaderboard"
+        android:layout_toEndOf="@+id/editText" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="3"
+        android:inputType="textPersonName"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:text="Moves:"
+        android:layout_alignTop="@+id/MoveCounter"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/MoveCounter" />
 
 
     <!--<ImageView-->

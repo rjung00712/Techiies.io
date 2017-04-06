@@ -42,7 +42,7 @@ public class PuzzleActivity extends AppCompatActivity {
         container.addView(boardView);
 
         // put number of moves into the text box
-        moveCounterText.setText(boardView.getMoveCounter());
+        moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
 
 //        final SharedPreferences prefs = PreferenceManager
 //                .getDefaultSharedPreferences(this);
