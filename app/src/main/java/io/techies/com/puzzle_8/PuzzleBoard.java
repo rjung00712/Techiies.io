@@ -3,6 +3,7 @@ package io.techies.com.puzzle_8;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Richard on 4/3/17.
@@ -156,5 +157,52 @@ public class PuzzleBoard {
         }
         int manhattanDistance = mPriority + steps;
         return manhattanDistance;
+    }
+
+    public void shuffle(int moves)
+    {
+        Random rand = new Random();
+        int tilePos = 0;
+        boolean swappable = false;
+        for(int i = 0; i < moves; i++)
+        {
+            tilePos = 0;
+            PuzzleTile tile = tiles.get(tilePos);
+            while(tile != null)
+            {
+                tilePos++;
+                tile = tiles.get(tilePos);
+            }
+            int newPos = 0;
+            while(!swappable)
+            {
+                int nextTo = rand.nextInt(4);
+                switch(nextTo)
+                {
+                    case 0:
+                        newPos = tilePos - 3;
+                        if(newPos >= 0)
+                            swappable = true;
+                        break;
+                    case 1:
+                        newPos = tilePos + 1;
+                        if(newPos % 3 != 0 && newPos <= 8)
+                            swappable = true;
+                        break;
+                    case 2:
+                        newPos = tilePos + 3;
+                        if(newPos <= 8)
+                            swappable = true;
+                        break;
+                    case 3:
+                        newPos = tilePos - 1;
+                        if(newPos % 3 != 2 && newPos >= 0)
+                            swappable = true;
+                        break;
+                }
+            }
+            swapTiles(tilePos, newPos);
+            swappable = false;
+        }
     }
 }

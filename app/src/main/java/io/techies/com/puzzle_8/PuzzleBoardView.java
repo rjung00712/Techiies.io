@@ -62,18 +62,27 @@ public class PuzzleBoardView extends View {
             }
         }
     }
-
+    /*
     public void shuffle() {
         if (animation == null && puzzleBoard != null) {
             // Do something. Then:
             for (int i = 0; i < NUM_SHUFFLE_STEPS; i++) {
                 ArrayList<PuzzleBoard> boards = puzzleBoard.neighbors();
                 puzzleBoard = boards.get(random.nextInt(boards.size()));
+
             }
 
             puzzleBoard.reset();
             invalidate();
         }
+    }
+    */
+
+    public void shuffle()
+    {
+        puzzleBoard.shuffle(NUM_SHUFFLE_STEPS);
+        puzzleBoard.reset();
+        invalidate();
     }
 
     @Override

@@ -105,6 +105,7 @@ public class PuzzleActivity extends AppCompatActivity {
         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         boardView.setMoveCounter(0);
         moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
+
     }
 
     @Override
