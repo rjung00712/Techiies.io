@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.text.method.MovementMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -21,11 +23,15 @@ import java.util.Random;
  */
 
 public class PuzzleBoardView extends View implements Serializable {
-    public static final int NUM_SHUFFLE_STEPS = 40;
+    public static final int NUM_SHUFFLE_STEPS = 120;
+
     private Activity activity;
     private PuzzleBoard puzzleBoard;
     private ArrayList<PuzzleBoard> animation;
     private Random random = new Random();
+    private int moveCounter;
+    private PuzzleActivity puzzleActivity = (PuzzleActivity) getContext();
+
 
     private String userName;
 
@@ -46,6 +52,7 @@ public class PuzzleBoardView extends View implements Serializable {
         super(context);
         activity = (Activity) context;
         animation = null;
+        moveCounter = 0;
     }
 
     public void initialize(Bitmap imageBitmap, String userName) {
@@ -79,17 +86,28 @@ public class PuzzleBoardView extends View implements Serializable {
             }
         }
     }
-
+    /*
     public void shuffle() {
         if (animation == null && puzzleBoard != null) {
             // Do something. Then:
             for (int i = 0; i < NUM_SHUFFLE_STEPS; i++) {
                 ArrayList<PuzzleBoard> boards = puzzleBoard.neighbors();
                 puzzleBoard = boards.get(random.nextInt(boards.size()));
+
             }
             puzzleBoard.reset();
             invalidate();
         }
+    }
+    */
+
+    public void shuffle()
+    {
+        puzzleBoard.shuffle(NUM_SHUFFLE_STEPS);
+        puzzleBoard.reset();
+        setMoveCounter(0);
+        puzzleActivity.moveCounterText.setText("" + moveCounter);
+        invalidate();
     }
 
     @Override
@@ -98,10 +116,13 @@ public class PuzzleBoardView extends View implements Serializable {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     if (puzzleBoard.click(event.getX(), event.getY())) {
+                        moveCounter++;
+                        puzzleActivity.moveCounterText.setText("" + moveCounter);
                         invalidate();
                         if (puzzleBoard.resolved()) {
                             Toast toast = Toast.makeText(activity, "Congratulations You solved it!", Toast.LENGTH_LONG);
                             toast.show();
+                            moveCounter = 0;
                         }
                         addUser(userName);
                         return true;
@@ -110,6 +131,12 @@ public class PuzzleBoardView extends View implements Serializable {
         }
         return super.onTouchEvent(event);
     }
+
+    public int getMoveCounter(){
+        return moveCounter;
+    }
+
+    public void setMoveCounter(int i) { moveCounter = i;}
 
     public void solve() {
         puzzleBoard.reset();

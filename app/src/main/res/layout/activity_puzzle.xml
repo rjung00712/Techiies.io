@@ -13,7 +13,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/take_photo_button_label"
+        android:text="New Game"
         android:id="@+id/photo_button"
         android:onClick="dispatchTakePictureIntent"
         android:layout_alignParentBottom="true"
@@ -23,7 +23,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/shuffle_button_label"
+        android:text="Save Game"
         android:id="@+id/shuffle_button"
         android:onClick="shuffleImage"
         android:layout_alignParentBottom="true"
@@ -32,7 +32,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/solve_button_label"
+        android:text="Load Game"
         android:id="@+id/solve_button"
         android:onClick="solve"
         android:layout_alignParentBottom="true"
@@ -47,6 +47,37 @@
         android:layout_above="@+id/shuffle_button"
         android:layout_centerHorizontal="true"
         android:onClick="displayLeaderBoardIntent" />
+
+    <EditText
+        android:id="@+id/MoveCounter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="2"
+        android:layout_alignBottom="@+id/Leaderboard"
+        android:layout_alignEnd="@+id/photo_button"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_alignTop="@+id/Leaderboard"
+        android:layout_toEndOf="@+id/editText" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="3"
+        android:inputType="textPersonName"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:text="Moves:"
+        android:layout_alignTop="@+id/MoveCounter"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/MoveCounter" />
+
+
+
 
     <!--<ImageView-->
     <!--android:layout_width="match_parent"-->

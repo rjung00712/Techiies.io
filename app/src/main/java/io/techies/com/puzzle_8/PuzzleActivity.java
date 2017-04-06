@@ -12,7 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -24,8 +30,8 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Bitmap imageBitmap = null;
     private PuzzleBoardView boardView;
+    public TextView moveCounterText;
     private String userName;
-
 
 //    ImageView imageView;
 
@@ -40,10 +46,46 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
 //        imageView = (ImageView) findViewById(R.id.imageView);
 
         boardView = new PuzzleBoardView(this);
-
+        moveCounterText = (TextView) findViewById(R.id.MoveCounter);
         // Some setup of the view.
         boardView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         container.addView(boardView);
+
+
+        // put number of moves into the text box
+        //moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
+        moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
+
+//        final SharedPreferences prefs = PreferenceManager
+//                .getDefaultSharedPreferences(this);
+//        String userName = prefs.getString("user_name", null);
+//        if (userName == null) {
+//            EditText input = new EditText(this);
+//            input.setId(1000);
+//            AlertDialog dialog = new AlertDialog.Builder(this)
+//                    .setView(input).setTitle("Enter your username!")
+//                    .setPositiveButton("Ok",
+//                            new DialogInterface.OnClickListener() {
+//
+//                                @Override
+//                                public void onClick(DialogInterface dialog,
+//                                                    int which) {
+//                                    EditText theInput = (EditText) ((AlertDialog) dialog)
+//                                            .findViewById(1000);
+//                                    String enteredText = theInput.getText()
+//                                            .toString();
+//                                    if (!enteredText.equals("")) {
+//                                        SharedPreferences.Editor editor = prefs
+//                                                .edit();
+//                                        editor.putString("user_name",
+//                                                enteredText);
+//                                        editor.commit();
+//                                    }
+//                                }
+//                            }).create();
+//            dialog.show();
+
+
 
         createAlert();
     }
@@ -62,7 +104,7 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        //noinspection SimplifiableIfStatement2
         if (id == R.id.action_settings) {
             return true;
         }
@@ -73,6 +115,7 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
     public void dispatchTakePictureIntent(View view) {  // handler for the "Take photo" button
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        // maybe add shuffle here when ever a new picture is taken (optional)
     }
 
     // calls puzzle board activity to handle the leader board display intent
@@ -92,6 +135,7 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
 
             boardView.initialize(imageBitmap, userName);
 //            imageView.setImageBitmap(imageBitmap);
+            shuffleImage(boardView);
         }
     }
 
@@ -102,6 +146,9 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
     public void solve(View view) {
         boardView.solve();
     }
+
+
+    public int getMoveCounter(View view) { return boardView.getMoveCounter();}
 
     // creates custom alert dialog box for username input
     public void createAlert() {
