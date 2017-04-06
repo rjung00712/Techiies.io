@@ -7,7 +7,9 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,7 +20,7 @@ public class PuzzleActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Bitmap imageBitmap = null;
     private PuzzleBoardView boardView;
-    private TextView moveCounterText;
+    public TextView moveCounterText;
 
 //    ImageView imageView;
 
@@ -36,12 +38,12 @@ public class PuzzleActivity extends AppCompatActivity {
 
         boardView = new PuzzleBoardView(this);
         moveCounterText = (TextView) findViewById(R.id.MoveCounter);
-
         // Some setup of the view.
         boardView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         container.addView(boardView);
 
         // put number of moves into the text box
+        //moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
         moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
 
 //        final SharedPreferences prefs = PreferenceManager
@@ -101,6 +103,8 @@ public class PuzzleActivity extends AppCompatActivity {
     public void dispatchTakePictureIntent(View view) {  // handler for the "Take photo" button
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        boardView.setMoveCounter(0);
+        moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
     }
 
     @Override

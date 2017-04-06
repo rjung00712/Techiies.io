@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.text.method.MovementMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,6 +25,8 @@ public class PuzzleBoardView extends View {
     private ArrayList<PuzzleBoard> animation;
     private Random random = new Random();
     private int moveCounter;
+    private PuzzleActivity puzzleActivity = (PuzzleActivity) getContext();
+
 
     public PuzzleBoardView(Context context) {
         super(context);
@@ -79,10 +83,12 @@ public class PuzzleBoardView extends View {
                 case MotionEvent.ACTION_DOWN:
                     if (puzzleBoard.click(event.getX(), event.getY())) {
                         moveCounter++;
+                        puzzleActivity.moveCounterText.setText("" + moveCounter);
                         invalidate();
                         if (puzzleBoard.resolved()) {
                             Toast toast = Toast.makeText(activity, "Congratulations You solved it!", Toast.LENGTH_LONG);
                             toast.show();
+                            moveCounter = 0;
                         }
                         return true;
                     }
@@ -94,6 +100,8 @@ public class PuzzleBoardView extends View {
     public int getMoveCounter(){
         return moveCounter;
     }
+
+    public void setMoveCounter(int i) { moveCounter = i;}
 
     public void solve() {
         puzzleBoard.reset();
