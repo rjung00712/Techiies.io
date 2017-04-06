@@ -82,6 +82,8 @@ public class PuzzleBoardView extends View {
     {
         puzzleBoard.shuffle(NUM_SHUFFLE_STEPS);
         puzzleBoard.reset();
+        setMoveCounter(0);
+        puzzleActivity.moveCounterText.setText("" + moveCounter);
         invalidate();
     }
 
