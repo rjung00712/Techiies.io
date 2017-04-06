@@ -2,6 +2,7 @@ package io.techies.com.puzzle_8;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,6 +18,7 @@ public class PuzzleBoard {
             { 0, -1 },
             { 0, 1 }
     };
+
     private ArrayList<PuzzleTile> tiles;
 
     private int steps;

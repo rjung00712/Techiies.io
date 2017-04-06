@@ -11,15 +11,20 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Random;
 
 /**
  * Created by Richard on 4/3/17.
  */
 
-public class PuzzleBoardView extends View {
+public class PuzzleBoardView extends View implements Serializable {
     public static final int NUM_SHUFFLE_STEPS = 120;
+
     private Activity activity;
     private PuzzleBoard puzzleBoard;
     private ArrayList<PuzzleBoard> animation;
@@ -28,6 +33,21 @@ public class PuzzleBoardView extends View {
     private PuzzleActivity puzzleActivity = (PuzzleActivity) getContext();
 
 
+    private String userName;
+
+    // list of all players
+    public static Queue<Player> listOfPlayers = new PriorityQueue<>(10, new Comparator<Player>() {
+        @Override
+        public int compare(Player player1, Player player2) {
+            if(player1.getMoves() < player2.getMoves()) {
+                return -1;
+            } else if(player1.getMoves() > player2.getMoves()) {
+                return 1;
+            }
+            return 0;
+        }
+    });
+
     public PuzzleBoardView(Context context) {
         super(context);
         activity = (Activity) context;
@@ -35,9 +55,13 @@ public class PuzzleBoardView extends View {
         moveCounter = 0;
     }
 
-    public void initialize(Bitmap imageBitmap) {
+    public void initialize(Bitmap imageBitmap, String userName) {
         Log.i("this is width", String.valueOf(getWidth()));
+
         int width = getWidth();
+
+        this.userName = userName;
+
         puzzleBoard = new PuzzleBoard(imageBitmap, width);
         invalidate();
     }
@@ -71,7 +95,6 @@ public class PuzzleBoardView extends View {
                 puzzleBoard = boards.get(random.nextInt(boards.size()));
 
             }
-
             puzzleBoard.reset();
             invalidate();
         }
@@ -90,7 +113,7 @@ public class PuzzleBoardView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (animation == null && puzzleBoard != null) {
-            switch(event.getAction()) {
+            switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     if (puzzleBoard.click(event.getX(), event.getY())) {
                         moveCounter++;
@@ -101,6 +124,7 @@ public class PuzzleBoardView extends View {
                             toast.show();
                             moveCounter = 0;
                         }
+                        addUser(userName);
                         return true;
                     }
             }
@@ -140,4 +164,26 @@ public class PuzzleBoardView extends View {
 //            }
 //        }
     }
+
+    // adds username to list of users
+    public void addUser(String userName) {
+        Player player;
+        boolean hasPlayer = false;
+
+        for(Player p : listOfPlayers) {
+            if(p.getUserName().equals(userName)) {
+                player = p;
+                hasPlayer = true;
+            }
+        }
+
+        if(!hasPlayer) {
+            player = new Player(userName, 5);
+            listOfPlayers.add(player);
+        }
+
+        listOfPlayers.add(new Player("tim", 10));
+    }
 }
+
+
