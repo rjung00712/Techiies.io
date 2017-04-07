@@ -1,25 +1,46 @@
 package io.techies.com.puzzle_8;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 public class PuzzleActivity extends AppCompatActivity implements Serializable {
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -101,8 +122,29 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
         boardView.shuffle();
     }
 
-    public void solve(View view) {
+    public void save(View v)
+    {
+        new ImageSaver(this).
+                setFileName("myImage.png").
+                setDirectoryName("images").
+                save(imageBitmap);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
 
+        String json = gson.toJson(boardView.getPuzzleBoard().getTiles());
+
+        editor.putString("list", json);
+        editor.commit();
+    }
+
+    public void load(View v)
+    {
+        imageBitmap = new ImageSaver(this).
+                setFileName("myImage.png").
+                setDirectoryName("images").
+                load();
+        boardView.initialize(imageBitmap, userName);
     }
 
     public int getMoveCounter(View view) { return boardView.getMoveCounter();}

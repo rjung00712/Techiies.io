@@ -3,6 +3,7 @@ package io.techies.com.puzzle_8;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -236,4 +237,8 @@ public class PuzzleBoard {
             swappable = false;  //Reset to false to look for a new tile
         }
     }
+
+    public ArrayList<PuzzleTile> getTiles() {return tiles;}
+
+    public void setTiles(ArrayList<PuzzleTile> t) {tiles = t;}
 }
