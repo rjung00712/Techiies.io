@@ -127,7 +127,9 @@ public class PuzzleBoardView extends View implements Serializable {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("list", null);
         Type type = new TypeToken<ArrayList<Player>>() {}.getType();
-        listOfPlayers = gson.fromJson(json, type);
+        if(json != null) {
+            listOfPlayers = gson.fromJson(json, type);
+        }
     }
 
     //Gets the moveCounter value

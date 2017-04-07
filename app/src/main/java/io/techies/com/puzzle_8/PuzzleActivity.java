@@ -133,7 +133,6 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
                         Collections.sort(boardView.listOfPlayers);
                         boardView.setMoveCounter(0);
                     }
-
                 }
             });
         builder.setCancelable(false);
