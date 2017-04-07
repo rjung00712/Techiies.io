@@ -93,7 +93,7 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
             imageBitmap = (Bitmap) extras.get("data");
             boardView.initialize(imageBitmap, userName);
 //            imageView.setImageBitmap(imageBitmap);
-            shuffleImage(boardView);
+//            shuffleImage(boardView);
         }
     }
 
