@@ -135,7 +135,7 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
 
             boardView.initialize(imageBitmap, userName);
 //            imageView.setImageBitmap(imageBitmap);
-            //shuffleImage(boardView);
+            shuffleImage(boardView);
         }
     }
 

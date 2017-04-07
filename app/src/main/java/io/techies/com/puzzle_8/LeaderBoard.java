@@ -10,7 +10,7 @@ import java.util.Queue;
 
 public class LeaderBoard extends ListActivity {
 
-    private Queue<Player> listOfLeaders;
+    private ArrayList<Player> listOfLeaders;
     private ListView listView;
     private ArrayList<String> leaderList;
 
