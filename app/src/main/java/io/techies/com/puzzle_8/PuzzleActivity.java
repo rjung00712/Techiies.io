@@ -12,29 +12,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import org.w3c.dom.Text;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.Collections;
 
 public class PuzzleActivity extends AppCompatActivity implements Serializable {
-
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private Bitmap imageBitmap = null;
     private PuzzleBoardView boardView;
     public TextView moveCounterText;
     public String userName;
-
-//    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,50 +36,17 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
         // This code programmatically adds the PuzzleBoardView to the UI.
         RelativeLayout container = (RelativeLayout) findViewById(R.id.puzzle_container);
 
-//        imageView = (ImageView) findViewById(R.id.imageView);
-
         boardView = new PuzzleBoardView(this);
         moveCounterText = (TextView) findViewById(R.id.MoveCounter);
+        moveCounterText.setEms(3);
+
         // Some setup of the view.
         boardView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         container.addView(boardView);
 
-
         // put number of moves into the text box
         //moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
         moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
-
-//        final SharedPreferences prefs = PreferenceManager
-//                .getDefaultSharedPreferences(this);
-//        String userName = prefs.getString("user_name", null);
-//        if (userName == null) {
-//            EditText input = new EditText(this);
-//            input.setId(1000);
-//            AlertDialog dialog = new AlertDialog.Builder(this)
-//                    .setView(input).setTitle("Enter your username!")
-//                    .setPositiveButton("Ok",
-//                            new DialogInterface.OnClickListener() {
-//
-//                                @Override
-//                                public void onClick(DialogInterface dialog,
-//                                                    int which) {
-//                                    EditText theInput = (EditText) ((AlertDialog) dialog)
-//                                            .findViewById(1000);
-//                                    String enteredText = theInput.getText()
-//                                            .toString();
-//                                    if (!enteredText.equals("")) {
-//                                        SharedPreferences.Editor editor = prefs
-//                                                .edit();
-//                                        editor.putString("user_name",
-//                                                enteredText);
-//                                        editor.commit();
-//                                    }
-//                                }
-//                            }).create();
-//            dialog.show();
-
-
-
     }
 
     @Override
@@ -132,10 +91,9 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
             Bundle extras = data.getExtras();
 
             imageBitmap = (Bitmap) extras.get("data");
-
             boardView.initialize(imageBitmap, userName);
 //            imageView.setImageBitmap(imageBitmap);
-            shuffleImage(boardView);
+//            shuffleImage(boardView);
         }
     }
 
@@ -146,7 +104,6 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
     public void solve(View view) {
 
     }
-
 
     public int getMoveCounter(View view) { return boardView.getMoveCounter();}
 

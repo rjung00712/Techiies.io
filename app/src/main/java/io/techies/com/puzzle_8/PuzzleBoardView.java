@@ -2,21 +2,22 @@ package io.techies.com.puzzle_8;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.text.method.MovementMethod;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Random;
+import java.util.List;
 
 /**
  * Created by Richard on 4/3/17.
@@ -33,13 +34,16 @@ public class PuzzleBoardView extends View implements Serializable {
 
     private String userName;    //Used to store a high score in the leaderboard
 
-    public static ArrayList<Player> listOfPlayers;    //List of all players
+    public static List<Player> listOfPlayers;    //List of all players
+    public static List<Player> listOfLeaders;       // retrieved list of current leaderboard
+
     public PuzzleBoardView(Context context) {
         super(context);
         activity = (Activity) context;
         animation = null;
         moveCounter = 0;        //Initialize counter to 0
         listOfPlayers = new ArrayList<>(10);    //Only holding 10 values
+        retrieveLeaderboardList(context);
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -77,8 +81,7 @@ public class PuzzleBoardView extends View implements Serializable {
     }
 
     //Shuffles the tiles on the board
-    public void shuffle()
-    {
+    public void shuffle() {
         puzzleBoard.shuffle(NUM_SHUFFLE_STEPS);
         puzzleBoard.reset();    //Resets the values
         setMoveCounter(0);      //Sets moveCounter to 0
@@ -117,6 +120,14 @@ public class PuzzleBoardView extends View implements Serializable {
             }
         }
         return super.onTouchEvent(event);
+    }
+
+    public void retrieveLeaderboardList(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("list", null);
+        Type type = new TypeToken<ArrayList<Player>>() {}.getType();
+        listOfLeaders = gson.fromJson(json, type);
     }
 
     //Gets the moveCounter value
