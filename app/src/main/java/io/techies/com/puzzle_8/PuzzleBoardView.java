@@ -23,40 +23,26 @@ import java.util.Random;
  */
 
 public class PuzzleBoardView extends View implements Serializable {
-    public static final int NUM_SHUFFLE_STEPS = 120;
+    public static final int NUM_SHUFFLE_STEPS = 120;    //Used to shuffle the board 120 times
 
     private Activity activity;
-    private PuzzleBoard puzzleBoard;
+    private PuzzleBoard puzzleBoard;    //Holds the board
     private ArrayList<PuzzleBoard> animation;
-    private Random random = new Random();
-    private int moveCounter;
-    private PuzzleActivity puzzleActivity = (PuzzleActivity) getContext();
+    private int moveCounter;    //Keeps track of the number of moves the user takes
+    private PuzzleActivity puzzleActivity = (PuzzleActivity) getContext();  //Used to update and print the moveCounter
 
+    private String userName;    //Used to store a high score in the leaderboard
 
-    private String userName;
-
-    // list of all players
-    /*
-    public static Queue<Player> listOfPlayers = new PriorityQueue<>(10, new Comparator<Player>() {
-        @Override
-        public int compare(Player player1, Player player2) {
-            if(player1.getMoves() < player2.getMoves()) {
-                return -1;
-            } else if(player1.getMoves() > player2.getMoves()) {
-                return 1;
-            }
-            return 0;
-        }
-    });
-    */
-    public static ArrayList<Player> listOfPlayers = new ArrayList<>(10);
+    public static ArrayList<Player> listOfPlayers;    //List of all players
     public PuzzleBoardView(Context context) {
         super(context);
         activity = (Activity) context;
         animation = null;
-        moveCounter = 0;
+        moveCounter = 0;        //Initialize counter to 0
+        listOfPlayers = new ArrayList<>(10);    //Only holding 10 values
     }
 
+    ///////////////////////////////////////////////////////////////////////////
     public void initialize(Bitmap imageBitmap, String userName) {
         Log.i("this is width", String.valueOf(getWidth()));
 
@@ -68,6 +54,7 @@ public class PuzzleBoardView extends View implements Serializable {
         invalidate();
     }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -88,47 +75,41 @@ public class PuzzleBoardView extends View implements Serializable {
             }
         }
     }
-    /*
-    public void shuffle() {
-        if (animation == null && puzzleBoard != null) {
-            // Do something. Then:
-            for (int i = 0; i < NUM_SHUFFLE_STEPS; i++) {
-                ArrayList<PuzzleBoard> boards = puzzleBoard.neighbors();
-                puzzleBoard = boards.get(random.nextInt(boards.size()));
 
-            }
-            puzzleBoard.reset();
-            invalidate();
-        }
-    }
-    */
-
+    //Shuffles the tiles on the board
     public void shuffle()
     {
         puzzleBoard.shuffle(NUM_SHUFFLE_STEPS);
-        puzzleBoard.reset();
-        setMoveCounter(0);
-        puzzleActivity.moveCounterText.setText("" + moveCounter);
-        invalidate();
+        puzzleBoard.reset();    //Resets the values
+        setMoveCounter(0);      //Sets moveCounter to 0
+        puzzleActivity.moveCounterText.setText("" + moveCounter);   //Prints out the move counter
+        invalidate();       //////////////////////////////////////////////////////////////////
     }
 
+    //When screen is touched
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (animation == null && puzzleBoard != null) {
             switch (event.getAction()) {
+                //Screen is touched
                 case MotionEvent.ACTION_DOWN:
+                    //Checks to see if a tile is clicked
                     if (puzzleBoard.click(event.getX(), event.getY())) {
-                        moveCounter++;
-                        puzzleActivity.moveCounterText.setText("" + moveCounter);
+                        moveCounter++;  //increments counter
+                        puzzleActivity.moveCounterText.setText("" + moveCounter);   //Reprints value
                         invalidate();
+                        //Checks to see if the puzzle is solved
                         if (puzzleBoard.resolved()) {
+                            //Prints out a Congratulations
                             Toast toast = Toast.makeText(activity, "Congratulations You solved it!", Toast.LENGTH_LONG);
                             toast.show();
+                            //Checks to see if score makes it to the leaderboard (top 10 only)
                             if(listOfPlayers.size() < 10 || listOfPlayers.get(9).getMoves() > moveCounter)
                             {
+                                //Removes the lowest score to make room for the new score
                                 if(listOfPlayers.size() == 10)
                                     listOfPlayers.remove(9);
-                                puzzleActivity.createAlert();
+                                puzzleActivity.createAlert();   //Gets the user's name and adds the score
                             }
                         }
                         return true;
@@ -138,38 +119,9 @@ public class PuzzleBoardView extends View implements Serializable {
         return super.onTouchEvent(event);
     }
 
-    public int getMoveCounter(){
-        return moveCounter;
-    }
+    //Gets the moveCounter value
+    public int getMoveCounter(){return moveCounter;}
 
+    //Sets the moveCounter value
     public void setMoveCounter(int i) { moveCounter = i;}
-
-    public void solve() {
-        puzzleBoard.reset();
-//        PriorityQueue<PuzzleBoard> solutionQueue = new PriorityQueue<PuzzleBoard>(1000, new PuzzleComparator());
-//        puzzleBoard.reset();
-//        solutionQueue.add(puzzleBoard);
-//
-//        while(!solutionQueue.isEmpty()){
-//            PuzzleBoard currBoard = solutionQueue.poll();
-//            if(currBoard.priority() == 0){
-//                //create an ArrayList of all PuzzleBoards leading to this solution by getting
-//                //PuzzleBoard.previousBoard then use Collections.reverse to turn it into
-//                //an in-order sequence of all the steps to solving the puzzle. If you copy that
-//                //ArrayList to PuzzleBoardView.animation the given implementation of onDraw will
-//                //sequence of steps to solve the puzzle
-//
-//                ArrayList<PuzzleBoard> pathToVic = currBoard.getPreviousBoards();
-//                Collections.reverse(pathToVic);
-//                animation = pathToVic;
-//            }
-//
-//            ArrayList<PuzzleBoard> solutions = currBoard.neighbors();
-//            for (PuzzleBoard board:solutions) {
-//                solutionQueue.add(board);
-//            }
-//        }
-    }
 }
-
-

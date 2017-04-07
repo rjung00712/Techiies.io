@@ -144,7 +144,7 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
     }
 
     public void solve(View view) {
-        boardView.solve();
+
     }
 
 

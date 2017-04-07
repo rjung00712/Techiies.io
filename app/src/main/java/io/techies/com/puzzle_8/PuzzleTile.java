@@ -9,22 +9,26 @@ import android.graphics.Canvas;
 
 public class PuzzleTile {
 
-    private Bitmap bitmap;
-    private int number;
+    private Bitmap bitmap;  //Holds the picture that's on the tile
+    private int number;     //Holds the number of the tile
 
+    //Constructor for the tile
     public PuzzleTile(Bitmap bitmap, int number){
         this.bitmap = bitmap;
         this.number = number;
     }
 
+    //Returns the number of the tile
     public int getNumber() {
         return number;
     }
 
+    //Draws the tile
     public void draw(Canvas canvas, int x, int y) {
         canvas.drawBitmap(bitmap, x * bitmap.getWidth(), y * bitmap.getHeight(), null);
     }
 
+    //Checks to see if the tile is clicked
     public boolean isClicked(float clickX, float clickY, int tileX, int tileY) {
         int tileX0 = tileX * bitmap.getWidth();
         int tileX1 = (tileX + 1) * bitmap.getWidth();
