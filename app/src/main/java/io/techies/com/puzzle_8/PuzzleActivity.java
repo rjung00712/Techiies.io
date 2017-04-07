@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.Collections;
 
 public class PuzzleActivity extends AppCompatActivity implements Serializable {
 
@@ -31,7 +32,7 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
     private Bitmap imageBitmap = null;
     private PuzzleBoardView boardView;
     public TextView moveCounterText;
-    private String userName;
+    public String userName;
 
 //    ImageView imageView;
 
@@ -87,7 +88,6 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
 
 
 
-        createAlert();
     }
 
     @Override
@@ -172,7 +172,9 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
                         Toast.makeText(PuzzleActivity.this, "must enter a username", Toast.LENGTH_SHORT).show();
                         createAlert();
                     } else {
-                        boardView.addUser(userName);
+                        boardView.listOfPlayers.add(new Player(userName, boardView.getMoveCounter()));
+                        Collections.sort(boardView.listOfPlayers);
+                        boardView.setMoveCounter(0);
                     }
 
                 }

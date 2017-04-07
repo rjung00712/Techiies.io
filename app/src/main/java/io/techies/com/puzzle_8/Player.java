@@ -1,10 +1,12 @@
 package io.techies.com.puzzle_8;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by Richard on 4/4/17.
  */
 
-public class Player {
+public class Player implements Comparable{
     private String userName;
     private int moves = 0;
 
@@ -31,5 +33,10 @@ public class Player {
 
     public void setMoves(int moves) {
         this.moves = moves;
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        return this.getMoves() - ((Player)o).getMoves();
     }
 }

@@ -36,6 +36,7 @@ public class PuzzleBoardView extends View implements Serializable {
     private String userName;
 
     // list of all players
+    /*
     public static Queue<Player> listOfPlayers = new PriorityQueue<>(10, new Comparator<Player>() {
         @Override
         public int compare(Player player1, Player player2) {
@@ -47,7 +48,8 @@ public class PuzzleBoardView extends View implements Serializable {
             return 0;
         }
     });
-
+    */
+    public static ArrayList<Player> listOfPlayers = new ArrayList<>(10);
     public PuzzleBoardView(Context context) {
         super(context);
         activity = (Activity) context;
@@ -122,9 +124,13 @@ public class PuzzleBoardView extends View implements Serializable {
                         if (puzzleBoard.resolved()) {
                             Toast toast = Toast.makeText(activity, "Congratulations You solved it!", Toast.LENGTH_LONG);
                             toast.show();
-                            moveCounter = 0;
+                            if(listOfPlayers.size() < 10 || listOfPlayers.get(9).getMoves() > moveCounter)
+                            {
+                                if(listOfPlayers.size() == 10)
+                                    listOfPlayers.remove(9);
+                                puzzleActivity.createAlert();
+                            }
                         }
-                        addUser(userName);
                         return true;
                     }
             }
@@ -163,26 +169,6 @@ public class PuzzleBoardView extends View implements Serializable {
 //                solutionQueue.add(board);
 //            }
 //        }
-    }
-
-    // adds username to list of users
-    public void addUser(String userName) {
-        Player player;
-        boolean hasPlayer = false;
-
-        for(Player p : listOfPlayers) {
-            if(p.getUserName().equals(userName)) {
-                player = p;
-                hasPlayer = true;
-            }
-        }
-
-        if(!hasPlayer) {
-            player = new Player(userName, 5);
-            listOfPlayers.add(player);
-        }
-
-        listOfPlayers.add(new Player("tim", 10));
     }
 }
 
