@@ -48,6 +48,7 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
     private PuzzleBoardView boardView;
     public TextView moveCounterText;
     public String userName;
+    private ArrayList<Integer> order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,9 +133,20 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
 
-        String json = gson.toJson(boardView.getPuzzleBoard().getTiles());
+        ArrayList<PuzzleTile> list = boardView.getPuzzleBoard().getTiles();
+        order = new ArrayList<>(9);
 
-        editor.putString("list", json);
+        for(int i = 0; i < 9; i++)
+        {
+            PuzzleTile tile = list.get(i);
+            if(tile != null)
+                order.add(tile.getNumber());
+            else
+                order.add(-1);
+        }
+        String json = gson.toJson(order);
+
+        editor.putString("order", json);
         editor.commit();
     }
 
@@ -145,6 +157,21 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
                 setDirectoryName("images").
                 load();
         boardView.initialize(imageBitmap, userName);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("order", null);
+        Type type = new TypeToken<ArrayList<Integer>>() {}.getType();
+        if(json != null) {
+            order = gson.fromJson(json, type);
+            for(int i = 0; i < 9; i++)
+            {
+                if(order.get(i) == -1)
+                    boardView.getPuzzleBoard().swapTiles(i, 8);
+                else
+                    boardView.getPuzzleBoard().swapTiles(i, order.get(i));
+            }
+            boardView.invalidate();
+        }
     }
 
     public int getMoveCounter(View view) { return boardView.getMoveCounter();}
