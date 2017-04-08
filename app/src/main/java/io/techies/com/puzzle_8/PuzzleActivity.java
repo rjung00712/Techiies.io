@@ -115,7 +115,7 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
             imageBitmap = (Bitmap) extras.get("data");
             boardView.initialize(imageBitmap, userName);
 //            imageView.setImageBitmap(imageBitmap);
-//            shuffleImage(boardView);
+            shuffleImage(boardView);
         }
     }
 
@@ -134,7 +134,7 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
         Gson gson = new Gson();
 
         ArrayList<PuzzleTile> list = boardView.getPuzzleBoard().getTiles();
-        order = new ArrayList<>(9);
+        order = new ArrayList<>(10);
 
         for(int i = 0; i < 9; i++)
         {
@@ -144,6 +144,7 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
             else
                 order.add(-1);
         }
+        order.add(boardView.getMoveCounter());
         String json = gson.toJson(order);
 
         editor.putString("order", json);
@@ -174,6 +175,8 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
                     //boardView.getPuzzleBoard().swapTiles(i, boardView.getPuzzleBoard().getIndex(new PuzzleTile(null, order.get(i))));
             }
             boardView.getPuzzleBoard().setTiles(tiles);
+            boardView.setMoveCounter(order.get(9));
+            moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
             boardView.invalidate();
         }
     }
