@@ -67,7 +67,6 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
         container.addView(boardView);
 
         // put number of moves into the text box
-        //moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
         moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
     }
 
@@ -125,30 +124,36 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
 
     public void save(View v)
     {
-        new ImageSaver(this).
-                setFileName("myImage.png").
-                setDirectoryName("images").
-                save(imageBitmap);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
+        if(imageBitmap != null) {
+            new ImageSaver(this).
+                    setFileName("myImage.png").
+                    setDirectoryName("images").
+                    save(imageBitmap);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            Gson gson = new Gson();
 
-        ArrayList<PuzzleTile> list = boardView.getPuzzleBoard().getTiles();
-        order = new ArrayList<>(10);
+            ArrayList<PuzzleTile> list = boardView.getPuzzleBoard().getTiles();
+            order = new ArrayList<>(10);
 
-        for(int i = 0; i < 9; i++)
-        {
-            PuzzleTile tile = list.get(i);
-            if(tile != null)
-                order.add(tile.getNumber());
-            else
-                order.add(-1);
+            for (int i = 0; i < 9; i++) {
+                PuzzleTile tile = list.get(i);
+                if (tile != null)
+                    order.add(tile.getNumber());
+                else
+                    order.add(-1);
+            }
+            order.add(boardView.getMoveCounter());
+            String json = gson.toJson(order);
+
+            editor.putString("order", json);
+            editor.commit();
         }
-        order.add(boardView.getMoveCounter());
-        String json = gson.toJson(order);
-
-        editor.putString("order", json);
-        editor.commit();
+        else
+        {
+            Toast toast = Toast.makeText(this, "Nothing to save", Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     public void load(View v)
@@ -157,27 +162,35 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
                 setFileName("myImage.png").
                 setDirectoryName("images").
                 load();
-        boardView.initialize(imageBitmap, userName);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("order", null);
-        Type type = new TypeToken<ArrayList<Integer>>() {}.getType();
-        if(json != null) {
-            order = gson.fromJson(json, type);
-            ArrayList<PuzzleTile> tiles = new ArrayList<>(9);
-            ArrayList<PuzzleTile> Tiles = boardView.getPuzzleBoard().getTiles();
-            for(int i = 0; i < 9; i++)
-            {
-                if(order.get(i) == -1)
-                    tiles.add(Tiles.get(boardView.getPuzzleBoard().getIndex(null)));
-                else
-                    tiles.add(Tiles.get(boardView.getPuzzleBoard().getIndex(new PuzzleTile(null, order.get(i)))));
+        if(imageBitmap != null)
+        {
+            boardView.initialize(imageBitmap, userName);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            Gson gson = new Gson();
+            String json = sharedPreferences.getString("order", null);
+            Type type = new TypeToken<ArrayList<Integer>>() {
+            }.getType();
+            if (json != null) {
+                order = gson.fromJson(json, type);
+                ArrayList<PuzzleTile> tiles = new ArrayList<>(9);
+                ArrayList<PuzzleTile> Tiles = boardView.getPuzzleBoard().getTiles();
+                for (int i = 0; i < 9; i++) {
+                    if (order.get(i) == -1)
+                        tiles.add(Tiles.get(boardView.getPuzzleBoard().getIndex(null)));
+                    else
+                        tiles.add(Tiles.get(boardView.getPuzzleBoard().getIndex(new PuzzleTile(null, order.get(i)))));
                     //boardView.getPuzzleBoard().swapTiles(i, boardView.getPuzzleBoard().getIndex(new PuzzleTile(null, order.get(i))));
+                }
+                boardView.getPuzzleBoard().setTiles(tiles);
+                boardView.setMoveCounter(order.get(9));
+                moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
+                boardView.invalidate();
             }
-            boardView.getPuzzleBoard().setTiles(tiles);
-            boardView.setMoveCounter(order.get(9));
-            moveCounterText.setText(Integer.toString(boardView.getMoveCounter()));
-            boardView.invalidate();
+        }
+        else
+        {
+            Toast toast = Toast.makeText(this, "No Save Game", Toast.LENGTH_LONG);
+            toast.show();
         }
     }
 
