@@ -136,6 +136,20 @@ public class PuzzleBoard {
         tiles.set(j, temp);
     }
 
+    public int getIndex(PuzzleTile tile)
+    {
+        for(int i = 0; i < 9; i++)
+        {
+            PuzzleTile temp = tiles.get(i);
+            if(tile != null && temp != null)
+                if(tile.getNumber() == temp.getNumber())
+                    return i;
+            if(temp == null)
+                return i;
+        }
+        return -1;
+    }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
     public ArrayList<PuzzleBoard> neighbors() {
         ArrayList<PuzzleBoard> boards = new ArrayList<>();

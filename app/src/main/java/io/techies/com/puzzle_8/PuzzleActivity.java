@@ -163,13 +163,17 @@ public class PuzzleActivity extends AppCompatActivity implements Serializable {
         Type type = new TypeToken<ArrayList<Integer>>() {}.getType();
         if(json != null) {
             order = gson.fromJson(json, type);
+            ArrayList<PuzzleTile> tiles = new ArrayList<>(9);
+            ArrayList<PuzzleTile> Tiles = boardView.getPuzzleBoard().getTiles();
             for(int i = 0; i < 9; i++)
             {
                 if(order.get(i) == -1)
-                    boardView.getPuzzleBoard().swapTiles(i, 8);
+                    tiles.add(Tiles.get(boardView.getPuzzleBoard().getIndex(null)));
                 else
-                    boardView.getPuzzleBoard().swapTiles(i, order.get(i));
+                    tiles.add(Tiles.get(boardView.getPuzzleBoard().getIndex(new PuzzleTile(null, order.get(i)))));
+                    //boardView.getPuzzleBoard().swapTiles(i, boardView.getPuzzleBoard().getIndex(new PuzzleTile(null, order.get(i))));
             }
+            boardView.getPuzzleBoard().setTiles(tiles);
             boardView.invalidate();
         }
     }
