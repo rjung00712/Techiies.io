@@ -35,7 +35,6 @@ public class PuzzleBoardView extends View implements Serializable {
     private String userName;    //Used to store a high score in the leaderboard
 
     public static List<Player> listOfPlayers;    //List of all players
-    public static List<Player> listOfLeaders;       // retrieved list of current leaderboard
 
     public PuzzleBoardView(Context context) {
         super(context);
@@ -46,7 +45,7 @@ public class PuzzleBoardView extends View implements Serializable {
         retrieveLeaderboardList(context);
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+
     public void initialize(Bitmap imageBitmap, String userName) {
         Log.i("this is width", String.valueOf(getWidth()));
 
@@ -137,4 +136,8 @@ public class PuzzleBoardView extends View implements Serializable {
 
     //Sets the moveCounter value
     public void setMoveCounter(int i) { moveCounter = i;}
+
+    public PuzzleBoard getPuzzleBoard() {return puzzleBoard;}
+
+    public void setPuzzleBoard(PuzzleBoard p) {puzzleBoard = p;}
 }

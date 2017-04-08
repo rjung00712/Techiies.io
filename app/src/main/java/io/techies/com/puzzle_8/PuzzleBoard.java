@@ -3,6 +3,7 @@ package io.techies.com.puzzle_8;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -135,6 +136,20 @@ public class PuzzleBoard {
         tiles.set(j, temp);
     }
 
+    public int getIndex(PuzzleTile tile)
+    {
+        for(int i = 0; i < 9; i++)
+        {
+            PuzzleTile temp = tiles.get(i);
+            if(tile != null && temp != null)
+                if(tile.getNumber() == temp.getNumber())
+                    return i;
+            if(temp == null)
+                return i;
+        }
+        return -1;
+    }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
     public ArrayList<PuzzleBoard> neighbors() {
         ArrayList<PuzzleBoard> boards = new ArrayList<>();
@@ -236,4 +251,8 @@ public class PuzzleBoard {
             swappable = false;  //Reset to false to look for a new tile
         }
     }
+
+    public ArrayList<PuzzleTile> getTiles() {return tiles;}
+
+    public void setTiles(ArrayList<PuzzleTile> t) {tiles = t;}
 }

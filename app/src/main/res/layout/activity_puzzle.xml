@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="Save Game"
         android:id="@+id/shuffle_button"
-        android:onClick="shuffleImage"
+        android:onClick="save"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:text="Load Game"
         android:id="@+id/solve_button"
-        android:onClick="solve"
+        android:onClick="load"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
 
